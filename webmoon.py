@@ -1,6 +1,7 @@
 import urllib3
 import colorama
 from colorama import *
+import socket
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 colorama.init()
@@ -12,8 +13,16 @@ def parse_wordlist(path):
         word_list_py.append(i.rstrip())
     return word_list_py
 
-
-def main(url, wordlist_path = "N:\\Tools\\UniversalTools\\rockyou.txt"):
+def main(url, wordlist_path = "N:\\Tools\\webmoon\\rockyou.txt"):
+        fucker = {
+            'User-agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1468.0 Safari/537.36',
+            'Accept-Language': 'en-us',
+            'Accept-Encoding': 'identity',
+            'Keep-Alive': '300',
+            'Connection': 'keep-alive',
+            'Cache-Control': 'max-age=0',
+        }
+        black_list = []
         listt = parse_wordlist(wordlist_path)
         print("Operation Starting Boss..............")
         for i in listt:
@@ -21,17 +30,25 @@ def main(url, wordlist_path = "N:\\Tools\\UniversalTools\\rockyou.txt"):
                 new_url = "https://" + str(i).rstrip() + "." + url
                 http = urllib3.PoolManager()
                 # print('Sent:', new_url)
-                r = http.request('POST', new_url)
+                r = http.request('POST', new_url, headers=fucker)
                 if r.status >= 200 and r.status < 300:
                     color_status = Fore.GREEN
                 else:
                     color_status = Fore.RED
-                print(Fore.BLUE + "URL: " + Fore.RED + new_url + Fore.BLUE + " | Response: " + color_status + str(r.status))
+                if new_url not in black_list:
+                    print(Fore.BLUE + "URL: " + Fore.RED + new_url + Fore.BLUE + " | IP: " + Fore.RED+socket.gethostbyname(new_url.split("://")[1]) + Fore.BLUE +" | Response: " + color_status + str(r.status))
+                    black_list.append(new_url)
             except urllib3.exceptions.MaxRetryError:
                 # print(r.status)
                 pass
             except UnicodeError:
                 pass
+            except urllib3.exceptions.ProtocolError:
+            	pass
+            except KeyboardInterrupt:
+            	with open('report.txt', 'w') as file:
+            		for i in black_list:
+            			file.write(i+'\n')
 
 
 def validateUrl(url):
