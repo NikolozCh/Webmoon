@@ -25,8 +25,11 @@ class SubDomain:
         if self.ignored != 0:
             print("Ignoring Response Code:", self.ignored, '\n')
         # exit()
+        if len(self.url.split('://')[0]) > 5 or str(self.url.split('://')[0])[:4] != "http":
+            print("\nCouldn't Resolve DNS")
+            sys.exit(0)
         try:
-            socket.gethostbyname(self.url)
+            socket.gethostbyname(self.url.split('://')[1])
         except socket.gaierror:
             print("\nCouldn't Resolve DNS")
             sys.exit(0)
@@ -44,7 +47,7 @@ class SubDomain:
         black_list = list()
         for i in open(self.wordlist, 'r'):
             try:
-                new_url = 'https://' + i.rstrip() + '.' + self.url
+                new_url = self.url.split("://")[0] + "://" + i.rstrip() + '.' + self.url.split("://")[1]
                 r = http.request('GET', new_url, headers=headers)
                 if r.status >= 200 and r.status < 300:
                     color_status = Fore.GREEN
@@ -66,6 +69,11 @@ class SubDomain:
                 sys.exit(0)
             except urllib3.exceptions.ProtocolError:
                 pass
+            except socket.gaierror:
+            	pass
+            except FileNotFoundError:
+            	print("File Can Not Be Linked!")
+            	sys.exit(0)
 
 
 if __name__ == '__main__':
