@@ -1,3 +1,4 @@
+import webbrowser
 import urllib3
 import colorama
 from colorama import *
@@ -56,6 +57,7 @@ class SubDomain:
                 # print(new_url, r.status)
                 # print(r.status != int(self.ignored))
                 # exit()
+                webbrowser.get("C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s").open(new_url)
                 if r.status != int(self.ignored):
                     if new_url not in black_list:
                         print(Fore.BLUE + "URL: " + Fore.RED + new_url + Fore.BLUE + " | IP: " + Fore.RED + socket.gethostbyname(new_url.split("://")[1]) + Fore.BLUE + " | Response: " + color_status + str(r.status))
@@ -70,10 +72,10 @@ class SubDomain:
             except urllib3.exceptions.ProtocolError:
                 pass
             except socket.gaierror:
-            	pass
+                pass
             except FileNotFoundError:
-            	print("File Can Not Be Linked!")
-            	sys.exit(0)
+                print("File Can Not Be Linked!")
+                sys.exit(0)
 
 
 if __name__ == '__main__':
@@ -88,17 +90,15 @@ if __name__ == '__main__':
     if not args.wordlist or not args.wordlist.endswith(".txt"):
         print("\nWordlist Input Error")
         sys.exit(0)
-    # print(args.ignore)
-    # exit()
     print(Fore.BLUE + '''
- ▄█     █▄     ▄████████ ▀█████████▄    ▄▄▄▄███▄▄▄▄    ▄██████▄   ▄██████▄  ███▄▄▄▄   
-███     ███   ███    ███   ███    ███ ▄██▀▀▀███▀▀▀██▄ ███    ███ ███    ███ ███▀▀▀██▄ 
-███     ███   ███    █▀    ███    ███ ███   ███   ███ ███    ███ ███    ███ ███   ███ 
-███     ███  ▄███▄▄▄      ▄███▄▄▄██▀  ███   ███   ███ ███    ███ ███    ███ ███   ███ 
-███     ███ ▀▀███▀▀▀     ▀▀███▀▀▀██▄  ███   ███   ███ ███    ███ ███    ███ ███   ███ 
-███     ███   ███    █▄    ███    ██▄ ███   ███   ███ ███    ███ ███    ███ ███   ███ 
-███ ▄█▄ ███   ███    ███   ███    ███ ███   ███   ███ ███    ███ ███    ███ ███   ███ 
- ▀███▀███▀    ██████████ ▄█████████▀   ▀█   ███   █▀   ▀██████▀   ▀██████▀   ▀█   █▀ 
+ ▄█     █▄     ▄████████ ▀█████████▄    ▄▄▄▄███▄▄▄▄    ▄██████▄   ▄██████▄  ███▄▄▄▄
+███     ███   ███    ███   ███    ███ ▄██▀▀▀███▀▀▀██▄ ███    ███ ███    ███ ███▀▀▀██▄
+███     ███   ███    █▀    ███    ███ ███   ███   ███ ███    ███ ███    ███ ███   ███
+███     ███  ▄███▄▄▄      ▄███▄▄▄██▀  ███   ███   ███ ███    ███ ███    ███ ███   ███
+███     ███ ▀▀███▀▀▀     ▀▀███▀▀▀██▄  ███   ███   ███ ███    ███ ███    ███ ███   ███
+███     ███   ███    █▄    ███    ██▄ ███   ███   ███ ███    ███ ███    ███ ███   ███
+███ ▄█▄ ███   ███    ███   ███    ███ ███   ███   ███ ███    ███ ███    ███ ███   ███
+ ▀███▀███▀    ██████████ ▄█████████▀   ▀█   ███   █▀   ▀██████▀   ▀██████▀   ▀█   █▀
 
     ╔╗ ┬ ┬  ╔╗╔┬┌─┐┬┌─  ╔═╗┬ ┬┬┌┬┐┌─┐┌─┐┬ ┬┬  ┬┬┬  ┬
     ╠╩╗└┬┘  ║║║││  ├┴┐  ║  ├─┤│ │ ├─┤└─┐├─┤└┐┌┘││  │
