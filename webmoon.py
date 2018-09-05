@@ -1,5 +1,5 @@
 #! /usr/bin/python3
-import webbrowser, urllib3, colorama, argparse, sys, socket
+import webbrowser, urllib3, colorama, argparse, sys, socket, platform
 from colorama import *
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -32,7 +32,11 @@ class SubDomain:
             print("\nCouldn't Resolve DNS")
             sys.exit(0)
         http = urllib3.PoolManager()
-
+        chrome_helper = {
+            'Linux': '/usr/bin/google-chrome %s',
+            'Windows': 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s',
+            'Darwin': 'open -a /Applications/Google\ Chrome.app %s'
+        }
         headers = {
             'User-agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1468.0 Safari/537.36',
             'Accept-Language': 'en-us',
@@ -41,7 +45,7 @@ class SubDomain:
             'Connection': 'keep-alive',
             'Cache-Control': 'max-age=0',
         }
-
+        browser_recognize = chrome_helper[platform.system()]
         black_list = list()
         for i in open(self.wordlist, 'r'):
             try:
@@ -55,7 +59,7 @@ class SubDomain:
                     if new_url not in black_list:
                         print(Fore.BLUE + "URL: " + Fore.RED + new_url + Fore.BLUE + " | IP: " + Fore.RED + socket.gethostbyname(new_url.split("://")[1]) + Fore.BLUE + " | Response: " + color_status + str(r.status))
                         if self.browser:
-                            webbrowser.get("C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s").open(new_url)
+                            webbrowser.get(browser_recognize).open(new_url)
                         black_list.append(new_url)
             except urllib3.exceptions.MaxRetryError:
                 pass
