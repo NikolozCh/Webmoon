@@ -1,10 +1,5 @@
-import webbrowser
-import urllib3
-import colorama
+import webbrowser, urllib3, colorama, argparse, sys, socket
 from colorama import *
-import socket
-import argparse
-import sys
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 colorama.init()
@@ -12,8 +7,9 @@ colorama.init()
 
 class SubDomain:
 
-    def __init__(self, url, wordlist, ignored):
+    def __init__(self, url, wordlist, ignored, browser):
         self.url = url
+        self.browser = browser
         self.wordlist = wordlist
         self.ignored = ignored
         if ignored:
@@ -54,42 +50,32 @@ class SubDomain:
                     color_status = Fore.GREEN
                 else:
                     color_status = Fore.RED
-                # print(new_url, r.status)
-                # print(r.status != int(self.ignored))
-                # exit()
-                webbrowser.get("C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s").open(new_url)
                 if r.status != int(self.ignored):
                     if new_url not in black_list:
                         print(Fore.BLUE + "URL: " + Fore.RED + new_url + Fore.BLUE + " | IP: " + Fore.RED + socket.gethostbyname(new_url.split("://")[1]) + Fore.BLUE + " | Response: " + color_status + str(r.status))
+                        if self.browser:
+                            webbrowser.get("C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s").open(new_url)
                         black_list.append(new_url)
             except urllib3.exceptions.MaxRetryError:
                 pass
             except UnicodeError:
                 pass
             except KeyboardInterrupt:
-                print(Fore.RED + "\nQuiting...")
+                print(Fore.RED + "\nUser Requested Exit, Quitting....s")
                 sys.exit(0)
             except urllib3.exceptions.ProtocolError:
                 pass
             except socket.gaierror:
                 pass
-            except FileNotFoundError:
-                print("File Can Not Be Linked!")
-                sys.exit(0)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='DNS Scanner To Get Subdomains of Website')
-    parser.add_argument('-u', '--url', help="URL To Scan")
-    parser.add_argument('-w', '--wordlist', help="Select Wordlist")
+    parser.add_argument('-u', '--url', required=True, help="URL To Scan")
+    parser.add_argument('-w', '--wordlist', required=True, help="Select Wordlist")
     parser.add_argument('-i', '--ignore', help='Ignore The Responses By Statuscode')
+    parser.add_argument('-b', '--browser', help='Pop Up Web Pages In Google Chrome (Working Only On Windows)', required=False, action='store_true')
     args = parser.parse_args()
-    if not args.url:
-        print("\nURL Input Error")
-        sys.exit(0)
-    if not args.wordlist or not args.wordlist.endswith(".txt"):
-        print("\nWordlist Input Error")
-        sys.exit(0)
     print(Fore.BLUE + '''
  ▄█     █▄     ▄████████ ▀█████████▄    ▄▄▄▄███▄▄▄▄    ▄██████▄   ▄██████▄  ███▄▄▄▄
 ███     ███   ███    ███   ███    ███ ▄██▀▀▀███▀▀▀██▄ ███    ███ ███    ███ ███▀▀▀██▄
@@ -104,5 +90,9 @@ if __name__ == '__main__':
     ╠╩╗└┬┘  ║║║││  ├┴┐  ║  ├─┤│ │ ├─┤└─┐├─┤└┐┌┘││  │
     ╚═╝ ┴   ╝╚╝┴└─┘┴ ┴  ╚═╝┴ ┴┴ ┴ ┴ ┴└─┘┴ ┴ └┘ ┴┴─┘┴
     ''')
-    lets_do_this = SubDomain(url=args.url, wordlist=args.wordlist, ignored=args.ignore)
-    lets_do_this.main()
+    lets_do_this = SubDomain(url=args.url, wordlist=args.wordlist, ignored=args.ignore, browser=args.browser)
+    try:
+        lets_do_this.main()
+    except FileNotFoundError:
+        print("\nFile Input Error")
+        sys.exit(0)
