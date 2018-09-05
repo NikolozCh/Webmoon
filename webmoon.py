@@ -9,7 +9,7 @@ colorama.init()
 class SubDomain:
 
     def __init__(self, url, wordlist, ignored, browser):
-        self.url = url
+        self.url = url[:-1]
         self.browser = browser
         self.wordlist = wordlist
         self.ignored = ignored
