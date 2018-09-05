@@ -2,7 +2,7 @@ import os
 import sys
 print('\nWELCOME TO GitAuto')
 print('\nTool is developed by Nika Chitashvili for Developers!\n')
-answer = 'n'
+static_answer = 'n'
 try:
     data_lines = []
     check = False
