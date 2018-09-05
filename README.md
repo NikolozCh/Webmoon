@@ -1,29 +1,15 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Webmoon is created for scanning website's subdomains, used only for ethical purposes
 
-### What is this repository for? ###
-
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
 
 ### How do I get set up? ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
+* Clone The Repository
+* Open Terminal
+* Start The Tool
+* Enjoy!
 
 ### Who do I talk to? ###
 
-* Repo owner or admin
-* Other community or team contact
+* Nika Chitashvili (Owner Of Repository and software)
