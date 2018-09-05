@@ -79,7 +79,7 @@ if __name__ == '__main__':
     parser.add_argument('-u', '--url', required=True, help="URL To Scan")
     parser.add_argument('-w', '--wordlist', required=True, help="Select Wordlist")
     parser.add_argument('-i', '--ignore', help='Ignore The Responses By Statuscode')
-    parser.add_argument('-b', '--browser', help='Pop Up Web Pages In Google Chrome (Working Only On Windows)', required=False, action='store_true')
+    parser.add_argument('-b', '--browser', help='Pop Up Web Pages In Google Chrome', required=False, action='store_true')
     args = parser.parse_args()
     print(Fore.BLUE + '''
  ▄█     █▄     ▄████████ ▀█████████▄    ▄▄▄▄███▄▄▄▄    ▄██████▄   ▄██████▄  ███▄▄▄▄
