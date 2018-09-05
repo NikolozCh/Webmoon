@@ -1,3 +1,4 @@
+#! /usr/bin/python3
 import webbrowser, urllib3, colorama, argparse, sys, socket
 from colorama import *
 
