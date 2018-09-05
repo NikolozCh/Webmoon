@@ -7,7 +7,7 @@ Webmoon is created for scanning website's subdomains, used only for ethical purp
 
 * Clone The Repository
 * Open Terminal
-* Start The Tool
+* Start The Tool (python webmoon.py -u [URL] -w [Wordlist] -b (browser pop up, optional) -i [Response Code])
 * Enjoy!
 
 ### Who do I talk to? ###
