@@ -12,4 +12,4 @@ Webmoon is created for scanning website's subdomains, used only for ethical purp
 
 ### Who do I talk to? ###
 
-* Nika Chitashvili (Owner Of Repository and software)
+* Nikoloz Chitashvili (Owner or the repo)
